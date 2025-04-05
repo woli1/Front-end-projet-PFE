@@ -23,7 +23,7 @@ const routes: Routes = [
     component:ApplyComponent
    },
    {
-    path:"details",
+    path:"details/:id",
     component:DetailsComponent
    },
    {

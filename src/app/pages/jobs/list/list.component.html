@@ -10,30 +10,16 @@
             <div class="flex-shrink-0 d-flex gap-1">
               <a href="javascript:void(0);" class="btn btn-primary" (click)="openModal(content)">Add New Job</a>
               <a href="javascript:void(0);" class="btn btn-light"><i class="mdi mdi-refresh"></i></a>
-              <div class="dropdown d-inline-block" dropdown>
-                <button type="menu" class="btn btn-success" id="*dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" dropdownToggle><i class="mdi mdi-dots-vertical"></i></button>
-                <ul class="dropdown-menu dropdown-menu dropdown-menu-end show" aria-labelledby="*dropdownMenuButton1" *dropdownMenu>
-                  <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
-                  <li><a class="dropdown-item" href="javascript:void(0);">Another action</a></li>
-                  <li><a class="dropdown-item" href="javascript:void(0);">Something else here</a></li>
-                </ul>
-              </div>
+              
             </div>
           </div>
         </div>
         <div class="card-body border-bottom">
           <div class="row g-3">
-            <div class="col-xxl-4 col-lg-6">
+            <div class="col-xxl-6 col-lg-6">
               <input type="search" class="form-control" id="searchInput" placeholder="Search for ..." [(ngModel)]="term" (ngModelChange)="searchJob()">
             </div>
-            <div class="col-xxl-2 col-lg-6">
-              <select class="form-select" id="idStatus" aria-label="Default select example" (click)="selectstatus()">
-                <option value="">Select Status</option>
-                <option value="Active">Active</option>
-                <option value="New">New</option>
-                <option value="Close">Close</option>
-              </select>
-            </div>
+            
             <div class="col-xxl-2 col-lg-4">
               <select class="form-select" id="idType" aria-label="Default select example" (click)="selectType()">
                 <option value="">Select Type</option>
@@ -45,12 +31,12 @@
             </div>
             <div class="col-xxl-2 col-lg-4">
               <div id="datepicker1">
-                <input type="text" placeholder="Datepicker" class="form-control " bsDatepicker [bsConfig]="{ showWeekNumbers: false }">
+                <input type="text" placeholder="Datepicker" class="form-control " [(ngModel)]="searchTerm" bsDatepicker [bsConfig]="{ showWeekNumbers: false } ">
 
               </div><!-- input-group -->
             </div>
             <div class="col-xxl-2 col-lg-4">
-              <button type="button" class="btn btn-soft-secondary w-100"><i class="mdi mdi-filter-outline align-middle"></i> Filter</button>
+              <button type="button" class="btn btn-soft-secondary w-100" (click)="performSearch()"><i class="mdi mdi-filter-outline align-middle"></i> Filter</button>
             </div>
           </div>
         </div>
@@ -65,11 +51,10 @@
                   <th scope="col">Company Name</th>
                   <th scope="col">Location</th>
                   <th scope="col">Experience</th>
-                  <th scope="col">Position</th>
+                  <th scope="col">Categorie</th>
                   <th scope="col">Type</th>
                   <th scope="col">Posted Date</th>
-                  <th scope="col">Last Date</th>
-                  <th scope="col">Status</th>
+                 
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -77,25 +62,21 @@
                 @for(data of lists;track $index){
                 <tr>
                   <th scope="row">{{data.id}}</th>
-                  <td>{{data.title}}</td>
-                  <td>{{data.name}}</td>
+                  <td>{{data.titleJob}}</td>
+                  <td>{{data.company}}</td>
                   <td>{{data.location}}</td>
-                  <td>{{data.experience}}</td>
-                  <td>{{data.position}}</td>
-                  <td><span class="badge badge-soft-{{data.type_color}}" [ngClass]="{'badge-soft-success': data.type === 'Full Time','badge-soft-danger': data.type === 'Part Time','badge-soft-info': data.type === 'Freelance','badge-soft-warning': data.type === 'Internship'}">{{data.type}}</span></td>
-                  <td>02 Nov 2023</td>
-                  <td> 25 Nov 2023</td>
-                  <td><span class="badge" [ngClass]="{ 'bg-success': data.status === 'Active', 'bg-info': data.status === 'New', 'bg-danger': data.status === 'Close'}">{{data.status}}</span></td>
+                  <td>{{data.experince}}</td>
+                  <td>{{data.categorie}}</td>
+                  <td><span class="badge badge-soft-{{data.type_color}}" [ngClass]="{'badge-soft-success': data.jobType === 'Full Time','badge-soft-danger': data.jobType === 'Part Time','badge-soft-info': data.jobType === 'Freelance','badge-soft-warning': data.jobType === 'Internship'}">{{data.jobType}}</span></td>
+                  <td>{{data.createdAt}}</td>
+                  
                   <td>
                     <ul class="list-unstyled hstack gap-1 mb-0">
                       <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-                        <a routerLink="/jobs/details" class="btn btn-sm btn-soft-primary"><i class="mdi mdi-eye-outline"></i></a>
-                      </li>
-                      <li data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
-                        <a href="javascript:void(0);" class="btn btn-sm btn-soft-info" (click)="editDataGet(data.id,content)"><i class="mdi mdi-pencil-outline"></i></a>
+                        <a [routerLink]="'/jobs/details/'+data.id" class="btn btn-sm btn-soft-primary"><i class="mdi mdi-eye-outline"></i></a>
                       </li>
                       <li data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
-                        <a href="javascript:void(0);" data-bs-toggle="modal" class="btn btn-sm btn-soft-danger" (click)="delete($event)"><i class="mdi mdi-delete-outline"></i></a>
+                        <a href="javascript:void(0);" data-bs-toggle="modal" class="btn btn-sm btn-soft-danger" (click)="delete($event,data.id)"><i class="mdi mdi-delete-outline"></i></a>
                       </li>
                     </ul>
                   </td>
@@ -215,7 +196,7 @@
       <input type="hidden" name="id" value="" formControlName="id" />
       <div class="mb-3">
         <label for="customername-field" class="form-label">Jobs Title</label>
-        <input type="text" id="customername-field" class="form-control" placeholder="Enter Name" required formControlName="title" [ngClass]="{ 'is-invalid': submitted && form['title'].errors }" />
+        <input type="text" id="customername-field" class="form-control" placeholder="Enter Name" required formControlName="titleJob" [ngClass]="{ 'is-invalid': submitted && form['title'].errors }" />
         @if(submitted && form['title'].errors){
         <div class="invalid-feedback" align="left">
           @if(form['title'].errors['required']){
@@ -225,15 +206,7 @@
         }
       </div>
 
-      <div class="mb-3">
-        <label for="customername-field" class="form-label">Company Name</label>
-        <input type="text" id="customername-field" class="form-control" placeholder="Enter Name" required formControlName="name" [ngClass]="{ 'is-invalid': submitted && form['name'].errors }" />
-        @if(submitted && form['name'].errors){
-        <div class="invalid-feedback" align="left">
-          @if(form['name'].errors['required']){
-          <div>Company Name is required</div>}
-        </div>}
-      </div>
+     
 
       <div class="mb-3">
         <label for="customername-field" class="form-label">Location</label>
@@ -256,21 +229,39 @@
       </div>
 
       <div class="mb-3">
-        <label for="customername-field" class="form-label">Position</label>
-        <input type="text" id="customername-field" class="form-control" placeholder="Enter Position" required formControlName="position" [ngClass]="{ 'is-invalid': submitted && form['position'].errors }" />
+        <label for="customername-field" class="form-label">description</label>
+        <input type="text" id="customername-field" class="form-control" placeholder="Enter description" required formControlName="description" [ngClass]="{ 'is-invalid': submitted && form['position'].errors }" />
         @if(submitted && form['position'].errors){
         <div class="invalid-feedback" align="left">
           @if(form['position'].errors['required']){
           <div>Position is required</div>}
         </div>}
       </div>
-
       <div class="mb-3">
-        <label for="payment-field" class="form-label">Type</label>
-        <select class="form-control" data-trigger name="payment-method" id="payment-field" formControlName="type" [ngClass]="{ 'is-invalid': submitted && form['type'].errors }">
-          <option value="">Type</option>
-          <option value="Full Time">Full Time</option>
-          <option value="Part Time">Part Time</option>
+        <label for="customername-field" class="form-label">nameCategory</label>
+        <input 
+          type="text" 
+          id="customername-field" 
+          class="form-control" 
+          placeholder="Enter category name" 
+          formControlName="nameCategory"
+          [ngClass]="{ 'is-invalid': submitted && jobListForm.get('categorieRequestDTO').get('nameCategory').invalid }"
+        />
+      
+        <!-- Error message -->
+        <div *ngIf="submitted && jobListForm.get('categorieRequestDTO').get('nameCategory').errors" class="invalid-feedback" align="left">
+          <div *ngIf="jobListForm.get('categorieRequestDTO').get('nameCategory').errors['required']">
+            Category is required
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="mb-3">
+        <label for="payment-field" class="form-label">contractType</label>
+        <select class="form-control" data-trigger name="payment-method" id="payment-field" formControlName="contractType" [ngClass]="{ 'is-invalid': submitted && form['type'].errors }">
+          <option value="CDD">Full Time</option>
+          <option value="CDI">Part Time</option>
         </select>
         @if(submitted && form['type'].errors){
         <div class="invalid-feedback" align="left">
@@ -281,17 +272,17 @@
       </div>
 
       <div class="mb-3">
-        <label for="payment-field" class="form-label">Status</label>
-        <select class="form-control" data-trigger name="payment-method" id="payment-field" formControlName="status" [ngClass]="{ 'is-invalid': submitted && form['status'].errors }">
-          <option value="">Status</option>
-          <option value="Active">Active</option>
-          <option value="New">New</option>
-          <option value="Close">Close</option>
+        <label for="payment-field" class="form-label">jobType</label>
+        <select class="form-control" data-trigger name="payment-method" id="payment-field" formControlName="jobType" [ngClass]="{ 'is-invalid': submitted && form['status'].errors }">
+          <option value="FREELANCE">FREELANCE</option>
+          <option value="INTERNSHIP">INTERNSHIP</option>
+          <option value="PARTTIME">PARTTIME</option>
+          <option value="FULLTIME">FULLTIME</option>
         </select>
         @if(submitted && form['status'].errors){
         <div class="invalid-feedback" align="left">
           @if(form['status'].errors['required']){
-          <div>Status is required</div>}
+          <div>job-type  is required</div>}
         </div>}
       </div>
 

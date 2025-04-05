@@ -304,14 +304,14 @@ export const MENU: MenuItem[] = [
         label: 'MENUITEMS.CONTACTS.TEXT',
         icon: 'bxs-user-detail',
         subItems: [
-      /*      {
+           {
                 id: 50,
-                label: 'MENUITEMS.CONTACTS.LIST.USERGRID',
+                label: 'MENUITEMS.CONTACTS.LIST.USERLIST',
                 link: '/contacts/grid',
                 parentId: 49
             },
-            */
-            {
+            
+            /* {
                 id: 51,
                 label: 'MENUITEMS.CONTACTS.LIST.USERLIST',
                 link: '/contacts/list',
@@ -322,7 +322,7 @@ export const MENU: MenuItem[] = [
                 label: 'MENUITEMS.CONTACTS.LIST.PROFILE',
                 link: '/contacts/profile',
                 parentId: 49
-            }
+            }*/
         ]
     },
  /*   {

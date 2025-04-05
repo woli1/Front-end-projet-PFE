@@ -15,7 +15,7 @@ const routes: Routes = [
         component: UsergridComponent
     },
     {
-        path: 'profile',
+        path: 'profile/:id',
         component: ProfileComponent
     }
 ];

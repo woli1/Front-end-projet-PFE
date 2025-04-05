@@ -5,8 +5,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 
 import Swal from 'sweetalert2';
 import { Store } from '@ngrx/store';
-import { addJoblist, fetchJoblistData, updateJoblist } from 'src/app/store/Job/job.action';
-import { selectData } from 'src/app/store/Job/job-selector';
+import { OfferService } from 'src/app/services/service/offer.service';
 
 @Component({
   selector: 'app-list',
@@ -34,7 +33,7 @@ export class ListComponent implements OnInit {
   currentPage: any;
   joblist: any;
   searchResults: any;
-  constructor(private modalService: BsModalService, private formBuilder: UntypedFormBuilder, public store: Store) {
+  constructor(private modalService: BsModalService, private formBuilder: UntypedFormBuilder, public store: Store,private offerService:OfferService) {
   }
 
   ngOnInit(): void {
@@ -45,19 +44,25 @@ export class ListComponent implements OnInit {
      */
     this.jobListForm = this.formBuilder.group({
       id: [''],
-      title: ['', [Validators.required]],
-      name: ['', [Validators.required]],
+      titleJob: ['', [Validators.required]],
       location: ['', [Validators.required]],
-      experience: ['', [Validators.required]],
-      position: ['', [Validators.required]],
-      type: ['', [Validators.required]],
-      status: ['', [Validators.required]]
+      experience: [0, [Validators.required]],
+      description: ['', [Validators.required]],
+      jobType: ['', [Validators.required]],
+      contractType: ['', [Validators.required]],
+      categorieRequestDTO: this.formBuilder.group({
+        nameCategory: ['',Validators.required]
+          // Ensure this is initialized with ''
+      })
     });
 
+    
+
     // store data
-    this.store.dispatch(fetchJoblistData());
-    this.store.select(selectData).subscribe(data => {
-      this.lists = data
+    //this.store.dispatch(fetchJoblistData());
+    //this.store.select(selectData).subscribe(data => {
+    this.offerService.getAllOffers().subscribe(data=>{  
+    this.lists = data
       this.joblist = data;
       this.lists = this.joblist.slice(0, 8)
     });
@@ -77,7 +82,7 @@ export class ListComponent implements OnInit {
   }
 
   // Delete Data
-  delete(event: any) {
+  delete(event: any,id:number) {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -103,6 +108,9 @@ export class ListComponent implements OnInit {
             'success'
           );
           event.target.closest('tr')?.remove();
+          console.log(id);
+          this.offerService.deleteOffer(id).subscribe(  response => console.log('Success:', response),
+          error => console.error('Error:', error))
         } else if (
           /* Read more about handling dismissals below */
           result.dismiss === Swal.DismissReason.cancel
@@ -136,16 +144,17 @@ export class ListComponent implements OnInit {
   * Save user
   */
   saveUser() {
-    if (this.jobListForm.valid) {
-      if (this.jobListForm.get('id')?.value) {
-        const updatedData = this.jobListForm.value;
-        this.store.dispatch(updateJoblist({ updatedData }));
-      } else {
-        this.jobListForm.controls['id'].setValue(this.joblist.length + 1)
+    
         const newData = this.jobListForm.value
-        this.store.dispatch(addJoblist({ newData }))
-      }
-    }
+        console.log(newData);
+        this.offerService.createOffer(1,0,newData).subscribe(
+          
+          response => console.log('Success:', response),
+        error => console.error('Error:', error)
+      );
+        
+      
+    
     this.modalService?.hide()
     setTimeout(() => {
       this.jobListForm.reset();
@@ -178,10 +187,10 @@ export class ListComponent implements OnInit {
   // Search Data
   performSearch(): void {
     this.searchResults = this.joblist.filter((item: any) => {
-      return item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      return item.company.toLowerCase().includes(this.searchTerm.toLowerCase())
         || item.status.toLowerCase().includes(this.searchTerm.toLowerCase())
-        || item.type.toLowerCase().includes(this.searchTerm.toLowerCase())
-        || item.date.toLowerCase().includes(this.searchTerm.toLowerCase())
+        || item.jobType.toLowerCase().includes(this.searchTerm.toLowerCase())
+        || item.createdAt.toLowerCase().includes(this.searchTerm.toLowerCase())
 
     })
     this.lists = this.searchResults.slice(0, 8)
@@ -197,7 +206,7 @@ export class ListComponent implements OnInit {
   searchJob() {
     if (this.term) {
       this.lists = this.joblist.filter((data: any) => {
-        return data.title.toLowerCase().includes(this.term.toLowerCase())
+        return data.titleJob.toLowerCase().includes(this.term.toLowerCase())
       })
     } else {
       this.lists = this.joblist

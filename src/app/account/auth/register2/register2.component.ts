@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { Register } from 'src/app/store/Authentication/authentication.actions';
 import { CommonModule } from '@angular/common';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { UserService } from 'src/app/services/service/user.service';
 
 @Component({
   selector: 'app-register2',
@@ -25,8 +26,8 @@ export class Register2Component implements OnInit {
   error: any = '';
   successmsg: any = false;
 
-  constructor(private formBuilder: UntypedFormBuilder, private route: ActivatedRoute, private router: Router, private authenticationService: AuthenticationService,
-    private userService: UserProfileService, public store: Store) { }
+  constructor(private formBuilder: UntypedFormBuilder, private route: ActivatedRoute, private router: Router, private userService: UserService,
+    public store: Store) { }
   // set the currenr year
   year: number = new Date().getFullYear();
 
@@ -57,11 +58,11 @@ export class Register2Component implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    const email = this.f['email'].value;
-    const name = this.f['name'].value;
-    const password = this.f['password'].value;
-
+    
+    this.userService.createUser(this.signupForm.value).subscribe(success=>{
+      console.log("success");
+    })
     //Dispatch Action
-    this.store.dispatch(Register({ email: email, username: name, password: password }));
+    
   }
 }
