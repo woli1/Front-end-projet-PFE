@@ -39,7 +39,7 @@ export class UsergridComponent implements OnInit {
   ngOnInit() {
     this.selectValue = ['Photoshop', 'illustrator', 'Html', 'Css', 'Php', 'Java', 'Python'];
 
-    this.breadCrumbItems = [{ label: 'Contacts' }, { label: 'Users Grid', active: true }];
+    this.breadCrumbItems = [{ label: 'Users' }, { label: 'Users Grid', active: true }];
     this.userForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required]],

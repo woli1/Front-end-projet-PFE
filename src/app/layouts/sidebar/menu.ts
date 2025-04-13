@@ -6,7 +6,7 @@ export const MENU: MenuItem[] = [
         label: 'MENUITEMS.MENU.TEXT',
         isTitle: true
     },
-    {
+    /*{
         id: 2,
         label: 'MENUITEMS.DASHBOARDS.TEXT',
         icon: 'bx-home-circle',
@@ -40,9 +40,9 @@ export const MENU: MenuItem[] = [
                 label: 'MENUITEMS.DASHBOARDS.LIST.JOBS',
                 link: '/dashboards/jobs',
                 parentId: 2,
-            },*/
+            },
         ]
-    },
+    },*/
    /* {
         id: 8,
         isLayout: true
@@ -242,7 +242,7 @@ export const MENU: MenuItem[] = [
             },
         ]
     },*/
-    {
+    /*{
         id: 40,
         label: 'MENUITEMS.PROJECTS.TEXT',
         icon: 'bx-briefcase-alt-2',
@@ -252,7 +252,7 @@ export const MENU: MenuItem[] = [
                 label: 'MENUITEMS.PROJECTS.LIST.GRID',
                 link: '/projects/grid',
                 parentId: 40
-            },*/
+            },
             {
                 id: 42,
                 label: 'MENUITEMS.PROJECTS.LIST.PROJECTLIST',
@@ -265,7 +265,7 @@ export const MENU: MenuItem[] = [
                 link: '/projects/overview',
                 parentId: 40
             },
-            */
+        
             {
                 id: 44,
                 label: 'MENUITEMS.PROJECTS.LIST.CREATE',
@@ -273,7 +273,7 @@ export const MENU: MenuItem[] = [
                 parentId: 40
             }
         ]
-    },
+    },*/
  /*   {
         id: 45,
         label: 'MENUITEMS.TASKS.TEXT',
