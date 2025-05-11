@@ -7,11 +7,7 @@
         <div class="card-body border-bottom">
           <div class="d-flex align-items-center">
             <h5 class="mb-0 card-title flex-grow-1">Jobs Lists</h5>
-            <div class="flex-shrink-0 d-flex gap-1">
-              <a href="javascript:void(0);" class="btn btn-primary" (click)="openModal(content)">Add New Job</a>
-              <a href="javascript:void(0);" class="btn btn-light"><i class="mdi mdi-refresh"></i></a>
-              
-            </div>
+            
           </div>
         </div>
         <div class="card-body border-bottom">
@@ -29,15 +25,8 @@
                 <option value="Freelance">Freelance</option>
               </select>
             </div>
-            <div class="col-xxl-2 col-lg-4">
-              <div id="datepicker1">
-                <input type="text" placeholder="Datepicker" class="form-control " [(ngModel)]="searchTerm" bsDatepicker [bsConfig]="{ showWeekNumbers: false } ">
-
-              </div><!-- input-group -->
-            </div>
-            <div class="col-xxl-2 col-lg-4">
-              <button type="button" class="btn btn-soft-secondary w-100" (click)="performSearch()"><i class="mdi mdi-filter-outline align-middle"></i> Filter</button>
-            </div>
+            
+            
           </div>
         </div>
         <div class="card-body">
@@ -65,7 +54,7 @@
                   <td>{{data.titleJob}}</td>
                   <td>{{data.company}}</td>
                   <td>{{data.location}}</td>
-                  <td>{{data.experince}}</td>
+                  <td>{{data.experience}}</td>
                   <td>{{data.categorie}}</td>
                   <td><span class="badge badge-soft-{{data.type_color}}" [ngClass]="{'badge-soft-success': data.jobType === 'Full Time','badge-soft-danger': data.jobType === 'Part Time','badge-soft-info': data.jobType === 'Freelance','badge-soft-warning': data.jobType === 'Internship'}">{{data.jobType}}</span></td>
                   <td>{{data.createdAt}}</td>
